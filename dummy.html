@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <title>SIMA HABATA</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+
+    <style>
+        body {
+            background-color: #dfe7ec;
+            font-family: "Segoe UI", sans-serif;
+        }
+
+        .sidebar {
+            width: 250px;
+            min-height: 100vh;
+            background: #1f3346;
+            color: white;
+            position: fixed;
+        }
+
+        .sidebar a {
+            color: #d1d9e0;
+            text-decoration: none;
+            padding: 12px 20px;
+            display: block;
+        }
+
+        .sidebar a:hover,
+        .sidebar a.active {
+            background: #294c6b;
+            color: white;
+        }
+
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+        }
+
+        .card-stat {
+            border-radius: 12px;
+        }
+
+        .badge-status {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+
+        .kanansikit {
+            text-align: center;
+        }
+
+        .gambarkanansikit {
+            margin-right: 20px;
+        }
+
+        /*baru di tambah*/
+        .card-stat {
+            border-radius: 16px;
+            border: none;
+        }
+
+        .stat-icon {
+            font-size: 22px;
+            color: #2563eb;
+        }
+
+        .stat-title {
+            font-size: 14px;
+            margin-top: 6px;
+            margin-bottom: 2px;
+            color: #6c757d;
+        }
+
+        .stat-text {
+            font-size: 12px;
+            color: #6c757d;
+        }
+
+        .stat-number {
+            font-size: 28px;
+            font-weight: 700;
+            margin: 4px 0;
+        }
+
+        .stat-chart {
+            font-size: 42px;
+            color: #adb5bd;
+            opacity: 0.5;
+            margin-top: 90px;
+
+        }
+
+        .stat-icon-right {
+            margin-top: 18px;
+            /* atur tinggi ikon kanan */
+        }
+
+        .stat-chart {
+            font-size: 2.2rem;
+            opacity: 0.25;
+        }
+
+
+        .table-fixed {
+            max-height: 260px;
+            /* SAMAIN TINGGI */
+            overflow-y: auto;
+        }
+
+        .table-fixed thead th {
+            position: sticky;
+            top: 0;
+            background: #fff;
+            z-index: 1;
+        }
+
+        /* Kalender tetap */
+        .calendar {
+            font-size: 13px;
+            text-align: center;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+        }
+
+        .calendar-days div {
+            background: #f1f5f9;
+            border-radius: 6px;
+            padding: 6px 0;
+        }
+
+        .calendar-days .today {
+            background: #2563eb;
+            color: white;
+            font-weight: bold;
+        }
+
+        .calendar-days .has-meeting {
+            border: 2px solid #22c55e;
+        }
+
+        .abusikit {
+            color: white;
+
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+        }
+
+        .calendar-header-days div {
+            font-weight: bold;
+            background: transparent;
+        }
+
+        .calendar-days div {
+            background: #f1f5f9;
+            border-radius: 6px;
+            padding: 6px 0;
+        }
+
+        .calendar-days .today {
+            background: #2563eb;
+            color: white;
+            font-weight: bold;
+        }
+
+        .calendar-days .has-meeting {
+            border: 2px solid #22c55e;
+        }
+        #roomChart {
+    max-width: 100%;
+        }
+        .create-rapat-btn {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    font-size: 22px;
+    box-shadow: 0 10px 25px rgba(0,0,0,.25);
+    z-index: 999;
+}
+.quick-action {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 999;
+}
+
+.plus-btn {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    font-size: 22px;
+    box-shadow: 0 10px 25px rgba(0,0,0,.25);
+}
+
+.quick-menu {
+    position: absolute;
+    bottom: 70px;
+    right: 0;
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.quick-menu.show {
+    display: flex;
+}
+
+.quick-item {
+    background: white;
+    border: none;
+    border-radius: 12px;
+    padding: 12px 20px;        /* 👈 bikin lebih panjang */
+    min-width: 210px;          /* 👈 KUNCI PANJANGNYA */
+    font-size: 14px;
+    text-align: left;
+    box-shadow: 0 8px 20px rgba(0,0,0,.15);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: .2s;
+}
+
+
+.quick-item:hover {
+    background: #3f6fd1;
+    color: white;
+}
+
+
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+.card {
+    background: #f7f9fb;
+    padding: 20px;
+    border-radius: 18px;
+    transition: 0.3s;
+    cursor: pointer;
+}
+.card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+.card h1 {
+    margin: 10px 0;
+    color: #2c3e50;
+}
+
+/* Card kecil & di tengah */
+.card-ruangan {
+    width: 720px;          /* 👈 bikin kecil */
+    border-radius: 18px;
+    background: #ffffff;
+    box-shadow: 0 10px 25px rgba(0,0,0,.12);
+}
+
+/* Lingkaran chart */
+.ruangan-circle {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    background: conic-gradient(
+        #0048ff 0% 75%,
+        #546ff3 75% 100%
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ruangan-inner {
+    width: 85px;
+    height: 85px;
+    background: #fcfcfc;
+    border-radius: 50%;
+    font-size: 13px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1.2;
+}
+
+/* Dot legend */
+.dot {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 4px;
+    margin-right: 6px;
+}
+
+.dot.tersedia {
+    background: #0048ff;
+}
+
+.dot.dipakai {
+    background: #546ff3;
+}
+
+
+    </style>
+</head>
+
+<body>
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <!-- DASHBOARD -->
+        <div id="dashboard">
+            <h4>Welcome back, Admin</h4>
+
+            <div class="row g-3 mt-2">
+
+                <!-- CARD 1 -->
+                <div class="col-md-3">
+                    <div class="card card-stat p-3 h-100">
+                        <div class="d-flex justify-content-between align-items-start">
+
+                            <div>
+                                <i class="bi bi-calendar2-week stat-icon"></i>
+                                <h6 class="stat-title">Jumlah Rapat</h6>
+                                <small class="stat-text">Hari ini : 2 | Minggu ini : 4</small>
+                                <h3 class="stat-number">132</h3>
+                                <small class="stat-text">Total Rapat</small>
+                            </div>
+                            <i class="bi bi-bar-chart-fill stat-chart"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD 2 -->
+                <div class="col-md-3">
+                    <div class="card card-stat p-3 h-100">
+                        <div class="d-flex justify-content-between align-items-start">
+
+                            <div>
+                                <i class="bi bi-briefcase stat-icon"></i>
+                                <h6 class="stat-title">Rapat Aktif</h6>
+                                <h3 class="stat-number">4</h3>
+                            </div>
+                            <i class="bi bi-bar-chart-fill stat-chart"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD 3 -->
+                <div class="col-md-3">
+                    <div class="card card-stat p-3 h-100">
+                        <div class="d-flex justify-content-between align-items-start">
+
+                            <div>
+                                <i class="bi bi-buildings-fill stat-icon"></i>
+                                <h6 class="stat-title">Total Ruangan</h6>
+                                <small class="stat-text">Tersedia : 6 | Dipakai : 2</small>
+                                <h3 class="stat-number">8</h3>
+                            </div>
+                            <i class="bi bi-buildings-fill stat-chart"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD 4 -->
+                <div class="col-md-3">
+                    <div class="card card-stat p-3 h-100">
+                        <div class="d-flex justify-content-between align-items-start">
+
+                            <div>
+                                <i class="bi bi-people stat-icon"></i>
+                                <h6 class="stat-title">Total User</h6>
+                                <h3 class="stat-number">132</h3>
+                                <small class="stat-text">Admin : 4 | User : 132</small><br>
+                                <small class="stat-text">Sek : 2 | Prk : 2</small>
+                            </div>
+                            <i class="bi bi-pie-chart-fill stat-chart"></i>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row mt-4 align-items-stretch">
+
+                <!-- TABEL -->
+                <div class="col-md-8 d-flex">
+                    <div class="card w-100">
+                        <div class="card-header fw-bold">Status Rapat</div>
+
+                        <!-- WRAPPER SCROLL -->
+                        <div class="table-responsive table-fixed">
+                            <table class="table table-hover mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Nama Rapat</th>
+                                        <th>Tanggal</th>
+                                        <th>Ruangan</th>
+                                        <th>Penanggung Jawab</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="rapatTable"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- KALENDER -->
+                <div class="col-md-4 d-flex">
+                    <div class="card w-100">
+                        <div class="card-header fw-bold text-center">
+                            <i class="bi bi-calendar-event"></i> Kalender
+                        </div>
+                        <div class="card-body p-2">
+                            <div class="calendar">
+                                <div class="calendar-header mb-2" id="monthYear"></div>
+
+                                <!-- HEADER HARI -->
+                                <div class="calendar-grid calendar-header-days">
+                                    <div>Min</div>
+                                    <div>Sen</div>
+                                    <div>Sel</div>
+                                    <div>Rab</div>
+                                    <div>Kam</div>
+                                    <div>Jum</div>
+                                    <div>Sab</div>
+                                </div>
+
+                                <!-- TANGGAL -->
+                                <div id="calendarDays" class="calendar-grid calendar-days"></div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+
+            <!-- MANAJEMEN RUANGAN -->
+            <div id="ruangan" style="display:none">
+                <h4>Manajemen Ruangan</h4>
+
+                <button class="btn btn-primary mb-3" onclick="addRoom()">Tambah Ruangan</button>
+
+                <table class="table table-bordered bg-white">
+                    <thead>
+                        <tr>
+                            <th>Nama Ruangan</th>
+                            <th>Lantai</th>
+                            <th>Kapasitas</th>
+                            <th>Status</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="roomTable"></tbody>
+                </table>
+            </div>
+
+            <!-- ARSIP -->
+            <div id="arsip" style="display:none">
+                <h4>Arsip & Laporan</h4>
+
+                <div class="card mt-3">
+                    <div class="card-header fw-bold">Detail Arsip Rapat</div>
+                    <table class="table mb-0">
+                        <thead>
+                            <tr>
+                                <th>Nama Rapat</th>
+                                <th>Tanggal</th>
+                                <th>Ruangan</th>
+                                <th>Peserta</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="arsipTable"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <br>
+            
+            <!-- CARD PENGGUNAAN RUANGAN -->
+<div class="d-flex justify-content-center mt-4">
+    <div class="card card-ruangan p-3 text-center">
+        <h6 class="fw-bold mb-2">
+            <i class="bi bi-building me-2"></i>Penggunaan Ruangan
+        </h6>
+
+        <div class="d-flex justify-content-center py-2">
+            <div class="ruangan-circle">
+                <div class="ruangan-inner">
+                    8<br>Ruangan
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-around mt-2 small fw-semibold">
+            <div>
+                <span class="dot tersedia"></span>
+                Tersedia (6)
+            </div>
+            <div>
+                <span class="dot dipakai"></span>
+                Dipakai (2)
+            </div>
+        </div>
+    </div>
+</div>
+
+
+ <!-- QUICK ACTION -->
+<div class="quick-action">
+    <button class="btn btn-primary plus-btn" onclick="toggleQuickMenu()">
+        <i class="bi bi-plus-lg"></i>
+    </button>
+
+    <div class="quick-menu" id="quickMenu">
+        <button class="quick-item" onclick="addRoom()">
+            <i class="bi bi-building"></i> Tambah Ruangan
+        </button>
+        <button class="quick-item">
+            <i class="bi bi-person-badge"></i> Tambah Proktor
+        </button>
+        <button class="quick-item">
+            <i class="bi bi-calendar-plus"></i> Buat Rapat
+        </button>
+    </div>
+</div>
+
+
+
+            <!-- JS -->
+            <script>
+                const rapatData = [
+                    { nama: "Rapat Sensus", tanggal: "13 Mei 2025", ruang: "Aula", pj: "Hanif", status: "Pending" },
+                    { nama: "Rapat Rutin", tanggal: "17 Mei 2025", ruang: "PST", pj: "Ibnu", status: "Disetujui" },
+                    { nama: "Rapat Kecil", tanggal: "20 Mei 2025", ruang: "Garda", pj: "Joko", status: "Ditolak" },
+                    { nama: "Rapat Evaluasi", tanggal: "25 Apr 2025", ruang: "Aula", pj: "Asep", status: "Selesai" }
+                ];
+
+                const roomData = [
+                    { nama: "Command Center", lantai: "Lt.3", kapasitas: "15–20", status: "Dipakai" },
+                    { nama: "Aula", lantai: "Lt.5", kapasitas: "50", status: "Tersedia" }
+                ];
+
+                function showSection(id) {
+                    ["dashboard", "ruangan", "arsip"].forEach(s => document.getElementById(s).style.display = "none");
+                    document.getElementById(id).style.display = "block";
+                }
+
+                function loadRapat() {
+                    let html = "";
+                    rapatData.forEach(r => {
+                        let color = r.status == "Pending" ? "warning" : r.status == "Disetujui" ? "success" : r.status == "Ditolak" ? "danger" : "secondary";
+                        html += `<tr>
+            <td>${r.nama}</td>
+            <td>${r.tanggal}</td>
+            <td>${r.ruang}</td>
+            <td>${r.pj}</td>
+            <td><span class="badge bg-${color} badge-status">${r.status}</span></td>
+        </tr>`;
+                    });
+                    document.getElementById("rapatTable").innerHTML = html;
+                }
+
+                function loadRooms() {
+                    let html = "";
+                    roomData.forEach((r, i) => {
+                        html += `<tr>
+            <td>${r.nama}</td>
+            <td>${r.lantai}</td>
+            <td>${r.kapasitas}</td>
+            <td>${r.status}</td>
+            <td>
+                <button class="btn btn-sm btn-warning" onclick="toggleRoom(${i})">Toggle</button>
+                <button class="btn btn-sm btn-danger" onclick="deleteRoom(${i})">Hapus</button>
+            </td>
+        </tr>`;
+                    });
+                    document.getElementById("roomTable").innerHTML = html;
+                }
+
+                function toggleRoom(i) {
+                    roomData[i].status = roomData[i].status == "Dipakai" ? "Tersedia" : "Dipakai";
+                    loadRooms();
+                }
+
+                function deleteRoom(i) {
+                    roomData.splice(i, 1);
+                    loadRooms();
+                }
+
+                function addRoom() {
+                    let nama = prompt("Nama Ruangan:");
+                    if (nama) {
+                        roomData.push({ nama: nama, lantai: "Lt.1", kapasitas: "20", status: "Tersedia" });
+                        loadRooms();
+                    }
+                }
+
+                function loadArsip() {
+                    let html = "";
+                    rapatData.forEach(r => {
+                        html += `<tr>
+            <td>${r.nama}</td>
+            <td>${r.tanggal}</td>
+            <td>${r.ruang}</td>
+            <td>35</td>
+            <td>${r.status}</td>
+        </tr>`;
+                    });
+                    document.getElementById("arsipTable").innerHTML = html;
+                }
+
+                loadRapat();
+                loadRooms();
+                loadArsip();
+                // baru ditambahh // 
+
+                function loadCalendar() {
+                    const now = new Date();
+                    const year = now.getFullYear();
+                    const month = now.getMonth();
+
+                    const firstDay = new Date(year, month, 1).getDay();
+                    const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+                    document.getElementById("monthYear").innerText =
+                        now.toLocaleString("id-ID", { month: "long", year: "numeric" });
+
+                    let html = "";
+
+                    for (let i = 0; i < firstDay; i++) {
+                        html += "<div></div>";
+                    }
+
+                    for (let d = 1; d <= daysInMonth; d++) {
+                        let cls = "";
+                        if (d === now.getDate()) cls = "today";
+
+                        // contoh: tanggal rapat
+                        if ([13, 17, 20].includes(d)) cls += " has-meeting";
+
+                        html += `<div class="${cls}">${d}</div>`;
+                    }
+
+                    document.getElementById("calendarDays").innerHTML = html;
+                }
+
+                /* loadCalendar();
+
+
+                function loadRoomChart() {
+        const tersedia = 6;
+        const dipakai = 2;
+
+        const ctx = document.getElementById('roomChart').getContext('2d');
+
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Tersedia', 'Dipakai'],
+                datasets: [{
+                    data: [tersedia, dipakai],
+                    backgroundColor: ['#22c55e', '#ef4444'],
+                    hoverBackgroundColor: ['#16a34a', '#dc2626'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '70%',
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: function (ctx) {
+                                return ctx.label + ' : ' + ctx.raw + ' Ruangan';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    loadRoomChart();*/
+ 
+function toggleQuickMenu() {
+    document.getElementById("quickMenu").classList.toggle("show");
+}
+
+
+            </script>
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+
+</html>
