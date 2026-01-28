@@ -17,29 +17,10 @@
             font-family: "Segoe UI", sans-serif;
         }
 
-        .sidebar {
-            width: 250px;
-            min-height: 100vh;
-            background: #1f3346;
-            color: white;
-            position: fixed;
-        }
-
-        .sidebar a {
-            color: #d1d9e0;
-            text-decoration: none;
-            padding: 12px 20px;
-            display: block;
-        }
-
-        .sidebar a:hover,
-        .sidebar a.active {
-            background: #294c6b;
-            color: white;
-        }
-
         .content {
-            margin-left: 250px;
+            margin-left: 0;
+            width: 100%;
+            min-height: 100vh;
             padding: 20px;
         }
 
@@ -51,14 +32,6 @@
             padding: 6px 12px;
             border-radius: 20px;
             font-size: 12px;
-        }
-
-        .kanansikit {
-            text-align: center;
-        }
-
-        .gambarkanansikit {
-            margin-right: 20px;
         }
 
         /*baru di tambah*/
@@ -181,145 +154,154 @@
         .calendar-days .has-meeting {
             border: 2px solid #22c55e;
         }
+
         #roomChart {
-    max-width: 100%;
+            max-width: 100%;
         }
+
         .create-rapat-btn {
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    font-size: 22px;
-    box-shadow: 0 10px 25px rgba(0,0,0,.25);
-    z-index: 999;
-}
-.quick-action {
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    z-index: 999;
-}
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            font-size: 22px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, .25);
+            z-index: 999;
+        }
 
-.plus-btn {
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    font-size: 22px;
-    box-shadow: 0 10px 25px rgba(0,0,0,.25);
-}
+        .quick-action {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 999;
+        }
 
-.quick-menu {
-    position: absolute;
-    bottom: 70px;
-    right: 0;
-    display: none;
-    flex-direction: column;
-    gap: 10px;
-}
+        .plus-btn {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            font-size: 22px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, .25);
+        }
 
-.quick-menu.show {
-    display: flex;
-}
+        .quick-menu {
+            position: absolute;
+            bottom: 70px;
+            right: 0;
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+        }
 
-.quick-item {
-    background: white;
-    border: none;
-    border-radius: 12px;
-    padding: 12px 20px;        /* 👈 bikin lebih panjang */
-    min-width: 210px;          /* 👈 KUNCI PANJANGNYA */
-    font-size: 14px;
-    text-align: left;
-    box-shadow: 0 8px 20px rgba(0,0,0,.15);
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    transition: .2s;
-}
+        .quick-menu.show {
+            display: flex;
+        }
 
-
-.quick-item:hover {
-    background: #3f6fd1;
-    color: white;
-}
+        .quick-item {
+            background: white;
+            border: none;
+            border-radius: 12px;
+            padding: 12px 20px;
+            /* 👈 bikin lebih panjang */
+            min-width: 210px;
+            /* 👈 KUNCI PANJANGNYA */
+            font-size: 14px;
+            text-align: left;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, .15);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: .2s;
+        }
 
 
-
-.cards {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-}
-.card {
-    background: #f7f9fb;
-    padding: 20px;
-    border-radius: 18px;
-    transition: 0.3s;
-    cursor: pointer;
-}
-.card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-}
-.card h1 {
-    margin: 10px 0;
-    color: #2c3e50;
-}
-
-/* Card kecil & di tengah */
-.card-ruangan {
-    width: 720px;          /* 👈 bikin kecil */
-    border-radius: 18px;
-    background: #ffffff;
-    box-shadow: 0 10px 25px rgba(0,0,0,.12);
-}
-
-/* Lingkaran chart */
-.ruangan-circle {
-    width: 130px;
-    height: 130px;
-    border-radius: 50%;
-    background: conic-gradient(
-        #0048ff 0% 75%,
-        #546ff3 75% 100%
-    );
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.ruangan-inner {
-    width: 85px;
-    height: 85px;
-    background: #fcfcfc;
-    border-radius: 50%;
-    font-size: 13px;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    line-height: 1.2;
-}
-
-/* Dot legend */
-.dot {
-    display: inline-block;
-    width: 12px;
-    height: 12px;
-    border-radius: 4px;
-    margin-right: 6px;
-}
-
-.dot.tersedia {
-    background: #0048ff;
-}
-
-.dot.dipakai {
-    background: #546ff3;
-}
+        .quick-item:hover {
+            background: #3f6fd1;
+            color: white;
+        }
 
 
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .card {
+            background: #f7f9fb;
+            padding: 20px;
+            border-radius: 18px;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .card h1 {
+            margin: 10px 0;
+            color: #2c3e50;
+        }
+
+        /* Card kecil & di tengah */
+        .card-ruangan {
+            width: 720px;
+            /* bikin kecil */
+            border-radius: 18px;
+            background: #ffffff;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, .12);
+        }
+
+        /* Lingkaran chart */
+        .ruangan-circle {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            background: conic-gradient(#0048ff 0% 75%,
+                    #546ff3 75% 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .ruangan-inner {
+            width: 85px;
+            height: 85px;
+            background: #fcfcfc;
+            border-radius: 50%;
+            font-size: 13px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1.2;
+        }
+
+        /* Dot legend */
+        .dot {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 4px;
+            margin-right: 6px;
+        }
+
+        .dot.tersedia {
+            background: #0048ff;
+        }
+
+        .dot.dipakai {
+            background: #546ff3;
+        }
+
+        body {
+            overflow-x: hidden;
+        }
     </style>
 </head>
 
@@ -501,54 +483,54 @@
             </div>
 
             <br>
-            
-            <!-- CARD PENGGUNAAN RUANGAN -->
-<div class="d-flex justify-content-center mt-4">
-    <div class="card card-ruangan p-3 text-center">
-        <h6 class="fw-bold mb-2">
-            <i class="bi bi-building me-2"></i>Penggunaan Ruangan
-        </h6>
 
-        <div class="d-flex justify-content-center py-2">
-            <div class="ruangan-circle">
-                <div class="ruangan-inner">
-                    8<br>Ruangan
+            <!-- CARD PENGGUNAAN RUANGAN -->
+            <div class="d-flex justify-content-center mt-4">
+                <div class="card card-ruangan p-3 text-center">
+                    <h6 class="fw-bold mb-2">
+                        <i class="bi bi-building me-2"></i>Penggunaan Ruangan
+                    </h6>
+
+                    <div class="d-flex justify-content-center py-2">
+                        <div class="ruangan-circle">
+                            <div class="ruangan-inner">
+                                8<br>Ruangan
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-around mt-2 small fw-semibold">
+                        <div>
+                            <span class="dot tersedia"></span>
+                            Tersedia (6)
+                        </div>
+                        <div>
+                            <span class="dot dipakai"></span>
+                            Dipakai (2)
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="d-flex justify-content-around mt-2 small fw-semibold">
-            <div>
-                <span class="dot tersedia"></span>
-                Tersedia (6)
+
+            <!-- QUICK ACTION -->
+            <div class="quick-action">
+                <button class="btn btn-primary plus-btn" onclick="toggleQuickMenu()">
+                    <i class="bi bi-plus-lg"></i>
+                </button>
+
+                <div class="quick-menu" id="quickMenu">
+                    <button class="quick-item" onclick="addRoom()">
+                        <i class="bi bi-building"></i> Tambah Ruangan
+                    </button>
+                    <button class="quick-item">
+                        <i class="bi bi-person-badge"></i> Tambah Proktor
+                    </button>
+                    <button class="quick-item">
+                        <i class="bi bi-calendar-plus"></i> Buat Rapat
+                    </button>
+                </div>
             </div>
-            <div>
-                <span class="dot dipakai"></span>
-                Dipakai (2)
-            </div>
-        </div>
-    </div>
-</div>
-
-
- <!-- QUICK ACTION -->
-<div class="quick-action">
-    <button class="btn btn-primary plus-btn" onclick="toggleQuickMenu()">
-        <i class="bi bi-plus-lg"></i>
-    </button>
-
-    <div class="quick-menu" id="quickMenu">
-        <button class="quick-item" onclick="addRoom()">
-            <i class="bi bi-building"></i> Tambah Ruangan
-        </button>
-        <button class="quick-item">
-            <i class="bi bi-person-badge"></i> Tambah Proktor
-        </button>
-        <button class="quick-item">
-            <i class="bi bi-calendar-plus"></i> Buat Rapat
-        </button>
-    </div>
-</div>
 
 
 
@@ -670,7 +652,7 @@
                     document.getElementById("calendarDays").innerHTML = html;
                 }
 
-                /* loadCalendar();
+                loadCalendar();
 
 
                 function loadRoomChart() {
@@ -708,11 +690,11 @@
         });
     }
 
-    loadRoomChart();*/
- 
-function toggleQuickMenu() {
-    document.getElementById("quickMenu").classList.toggle("show");
-}
+    loadRoomChart();
+
+                function toggleQuickMenu() {
+                    document.getElementById("quickMenu").classList.toggle("show");
+                }
 
 
             </script>
