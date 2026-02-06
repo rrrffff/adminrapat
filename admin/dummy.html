@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arsip Rapat Digital - Navy Dashboard</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --navy-dark: #001529;
+            --navy-medium: #001f3f;
+            --navy-light: #0d3b66;
+            --accent-blue: #3a86ff;
+            --bg-body: #f4f7fa;
+            --text-muted: #6c757d;
+                --chart-bar: #3a86ff;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--navy-dark);
+            overflow-x: hidden;
+        }
+
+        /* --- Animations --- */
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-up {
+            opacity: 0;
+            animation: slideInUp 0.8s ease forwards;
+        }
+
+        /* --- Layout & Cards --- */
+        .sidebar-profile {
+            background: linear-gradient(135deg, var(--navy-dark), var(--navy-medium));
+            border-radius: 20px;
+            color: white;
+            padding: 30px;
+            position: sticky;
+            top: 20px;
+        }
+
+        .card-custom {
+            border: none;
+            border-radius: 15px;
+            background: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            overflow: hidden;
+        }
+
+        .card-custom:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(0, 31, 63, 0.15);
+        }
+
+        .search-bar {
+            background: white;
+            border-radius: 50px;
+            padding: 10px 25px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .search-bar input {
+            border: none;
+            outline: none;
+            width: 100%;
+        }
+
+        .btn-navy {
+            background-color: var(--navy-medium);
+            color: white;
+            border-radius: 8px;
+            padding: 8px 20px;
+            transition: 0.3s;
+        }
+
+        .btn-navy:hover {
+            background-color: var(--accent-blue);
+            color: white;
+        }
+
+        .stat-box {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .video-placeholder {
+            background: #000;
+            height: 250px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            position: relative;
+        }
+
+        /* --- Custom Scrollbar --- */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--navy-light);
+            border-radius: 10px;
+        }
+
+        /* --- CHART STYLES (DURASI RAPAT) --- */
+        .chart-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+
+        .chart-wrapper {
+            position: relative;
+            padding-left: 35px;
+            margin-top: 10px;
+        }
+
+        .main-chart-area {
+            position: relative;
+            height: 110px;
+            width: 100%;
+        }
+
+        .grid-lines {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .grid-line {
+            border-bottom: 1px solid #e2e8f0;
+            position: relative;
+        }
+
+        .grid-line span {
+            position: absolute;
+            left: -35px;
+            bottom: -8px;
+            font-size: 11px;
+            color: #94a3b8;
+        }
+
+        .bars-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+            z-index: 2;
+        }
+
+        .bar-item {
+            width: 12%;
+       border-radius: 4px 4px 0 0;
+        }
+
+        .bar-item:hover {
+            opacity: 0.8;
+        }
+
+        .labels-container {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 12px;
+        }
+
+        .label-item {
+            width: 18%;
+            text-align: center;
+            font-size: 12px;
+            color: #64748b;
+            font-weight: 500;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container-fluid py-4 px-md-5">
+        <div class="row g-4">
+
+            <div class="col-lg-8">
+                <div class="d-flex justify-content-between align-items-center mb-4 animate-up"
+                    style="animation-delay: 0.1s;">
+                    <h2 class="fw-bold">Arsip Rapat <span class="text-primary">.</span></h2>
+                    <div class="search-bar d-flex align-items-center w-50">
+                        <i class='bx bx-search fs-4 me-2 text-muted'></i>
+                        <input type="text" id="searchInput" placeholder="Cari judul rapat atau departemen...">
+                    </div>
+                </div>
+
+                <h5 class="mb-3 fw-bold animate-up" style="animation-delay: 0.2s;">Rapat Utama & Strategis</h5>
+                <div class="row g-3 mb-5">
+                    <div class="col-md-6 animate-up" style="animation-delay: 0.3s;">
+                        <div class="card card-custom p-3">
+                            <div class="d-flex align-items-center mb-3">
+                                <i class='bx bxs-file-pdf fs-1 text-danger me-3'></i>
+                                <div>
+                                    <h6 class="mb-0 fw-bold text-truncate">Evaluasi Kuartal IV 2025</h6>
+                                    <small class="text-muted">Divisi Keuangan • 12 Jan 2026</small>
+                                </div>
+                            </div>
+                            <button class="btn btn-navy w-100 btn-action" data-type="Download">Unduh Notulen</button>
+                        </div>
+                    </div>
+                    <div class="col-md-6 animate-up" style="animation-delay: 0.4s;">
+                        <div class="card card-custom p-3">
+                            <div class="d-flex align-items-center mb-3">
+                                <i class='bx bxs-video fs-1 text-primary me-3'></i>
+                                <div>
+                                    <h6 class="mb-0 fw-bold text-truncate">Briefing Strategi Produk Baru</h6>
+                                    <small class="text-muted">Marketing • 28 Jan 2026</small>
+                                </div>
+                            </div>
+                            <button class="btn btn-navy w-100 btn-action" data-type="Putar">Putar Rekaman</button>
+                        </div>
+                    </div>
+                </div>
+
+                <h5 class="mb-3 fw-bold animate-up" style="animation-delay: 0.5s;">Detail Arsip Rapat</h5>
+                <div class="card card-custom p-4 mb-4 animate-up" style="animation-delay: 0.6s;">
+                    <div class="row align-items-center">
+                        <div class="col-12">
+                            <div class="table-card">
+                                <div class="table-responsive">
+                                    <table class="table align-middle">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th class="py-3">Nama Rapat</th>
+                                                <th class="py-3">Tanggal & Waktu</th>
+                                                <th class="py-3">Ruangan</th>
+                                                <th class="py-3 text-center">Peserta</th>
+                                                <th class="py-3 text-center">Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="fw-medium">Rapat Evaluasi Triwulan</td>
+                                                <td>25 April 2025, 09.00</td>
+                                                <td>Aula Utama</td>
+                                                <td class="text-center">35</td>
+                                                <td class="text-center"><span class="badge-finish">Selesai</span></td>
+                                            </tr>
+                                        </tbody>
+                                        <tbody>
+                                            <tr>
+                                                 <td class="fw-medium">Rapat Evaluasi Triwulan</td>
+                                                <td>25 April 2025, 09.00</td>
+                                                <td>Aula Utama</td>
+                                                <td class="text-center">35</td>
+                                                <td class="text-center"><span class="badge-finish">Selesai</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="text-end mt-3">
+                                    <button class="btn-clear">Clear all</button>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="sidebar-profile animate-up" style="animation-delay: 0.7s;">
+                    <div class="text-center">
+                        <i class="bx bx-user fs-1"></i>
+                        <h5 class="fw-bold mb-0">Jerome Butler</h5>
+                        <p class="small opacity-75">Administrator Utama</p>
+                    </div>
+
+                    <div class="row g-2 mt-4">
+                        <div class="col-6">
+                            <div class="stat-box">
+                                <h4 class="fw-bold mb-0">128</h4>
+                                <small class="opacity-75">Arsip</small>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="stat-box">
+                                <h4 class="fw-bold mb-0">12</h4>
+                                <small class="opacity-75">Draft</small>
+                            </div>
+                        </div>
+                        <div class="col-12 mt-2">
+
+
+                            <div class="stat-card stat-chart">
+                                <div class="stat-box">
+                                    <div class="chart-title">Durasi rata-rata rapat</div>
+                                    <div class="chart-wrapper">
+                                        <div class="main-chart-area">
+                                            <div class="grid-lines">
+                                                <div class="grid-line"><span>20</span></div>
+                                                <div class="grid-line"><span>15</span></div>
+                                                <div class="grid-line"><span>10</span></div>
+                                                <div class="grid-line"><span>5</span></div>
+                                                <div class="grid-line" style="border:none"><span>0</span></div>
+                                            </div>
+                                                <div class="bars-container">
+    <div class="bar-item bg-primary" style="height: 40%;"></div>
+    <div class="bar-item bg-info" style="height: 60%;"></div>
+    <div class="bar-item bg-warning" style="height: 75%;"></div>
+    <div class="bar-item bg-success" style="height: 100%;"></div>
+</div>
+
+                                        </div>
+                                        <div class="labels-container">
+                                            <div class="label-item">1 jam</div>
+                                            <div class="label-item">2 jam</div>
+                                            <div class="label-item">2,5 jam</div>
+                                            <div class="label-item">4 jam</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 mt-2">
+                            <button class="btn btn-light w-100 fw-bold py-2" onclick="alert('Buka Pengaturan Akun')">
+                                <i class='bx bx-cog me-2'></i>Pengaturan
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card card-custom mt-4 p-4 animate-up" style="animation-delay: 0.8s;">
+                    <h6 class="fw-bold mb-3">Arsip Per Departemen</h6>
+                    <div id="divisionList">
+                        <div class="d-flex align-items-center justify-content-between mb-3 p-2 border-bottom">
+                            <div class="d-flex align-items-center">
+                                <div class="bg-primary bg-opacity-10 p-2 rounded me-3"><i
+                                        class='bx bx-code-alt text-primary'></i></div>
+                                <div>
+                                    <p class="mb-0 fw-bold small">Teknologi Informasi</p>
+                                    <small class="text-muted">42 Dokumen</small>
+                                </div>
+                            </div>
+                            <i class='bx bx-chevron-right text-muted'></i>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between mb-3 p-2 border-bottom">
+                            <div class="d-flex align-items-center">
+                                <div class="bg-success bg-opacity-10 p-2 rounded me-3"><i
+                                        class='bx bx-money-withdraw text-success'></i></div>
+                                <div>
+                                    <p class="mb-0 fw-bold small">Keuangan & Akuntansi</p>
+                                    <small class="text-muted">28 Dokumen</small>
+                                </div>
+                            </div>
+                            <i class='bx bx-chevron-right text-muted'></i>
+                        </div>
+                    </div>
+                    <button class="btn btn-outline-secondary btn-sm mt-2 w-100" id="btnLoadMore">Lihat Semua
+                        Divisi</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+            // 1. Search Functionality
+            const searchInput = document.getElementById('searchInput');
+            searchInput.addEventListener('keyup', function (e) {
+                const term = e.target.value.toLowerCase();
+                const cards = document.querySelectorAll('.card-custom');
+
+                cards.forEach(card => {
+                    const text = card.innerText.toLowerCase();
+                    if (text.includes(term)) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+
+            // 2. Button Action Interactions
+            const actionButtons = document.querySelectorAll('.btn-action');
+            actionButtons.forEach(btn => {
+                btn.addEventListener('click', function () {
+                    const type = this.getAttribute('data-type');
+                    this.innerHTML = `<span class="spinner-border spinner-border-sm" role="status"></span> Menyiapkan...`;
+
+                    setTimeout(() => {
+                        this.innerHTML = `<i class='bx bx-check-circle'></i> Berhasil ${type}`;
+                        this.classList.replace('btn-navy', 'btn-success');
+                    }, 1500);
+                });
+            });
+
+            // 3. Hover Sound Effect / Visual Feedback (Console log for demo)
+            const cards = document.querySelectorAll('.card-custom');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    console.log('Focusing on archive item...');
+                });
+            });
+
+            // 4. Load More Simulation
+            const btnLoadMore = document.getElementById('btnLoadMore');
+            btnLoadMore.addEventListener('click', function () {
+                alert('Fitur ini akan memuat daftar divisi lainnya dari database.');
+            });
+        });
+    </script>
+
+</body>
+
+</html>
